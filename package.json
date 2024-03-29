@@ -1,16 +1,28 @@
 {
   "start": "node index.js",
-  "dependencies": {
-    "express": "^4.18.2"
-  },
   "name": "trabalho-back-and",
   "description": "Trabalho Gustavo",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
+    "lint": "eslint **/*.js --ignore-pattern node_modules/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MaryanaBOtoni/trabalho-back-and.git"
+  },
   "author": "Mariana",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaryanaBOtoni/trabalho-back-and/issues"
+  },
+  "homepage": "https://github.com/MaryanaBOtoni/trabalho-back-and",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-google": "^0.14.0"
+  }
 }

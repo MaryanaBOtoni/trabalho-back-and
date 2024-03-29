@@ -1,9 +1,13 @@
-const express = require('express')
-const app = express()
-const port = 3000
-app.get('/', (req, res) => {
- res.send('Olá Mundo!')
-})
-app.listen(port, () => {
- console.log(`Aplicação exemplo rodando em http://localhost:${port}`)
-})
+//  Chame o módulo express
+//  Chame o módulo express
+const express = require('express');
+//  Crie um servidor app
+const app = express();
+//  Crie um endpoint para receber requisições
+app.get('/', function(req, res) {
+  res.send('Ola Mundo!');
+});
+//  Imprima URL para acessar o servidor
+app.listen(8000, function() {
+  console.log('App ouvindo na porta 8000!');
+});
