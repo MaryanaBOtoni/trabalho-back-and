@@ -6,7 +6,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+var clientesRouter = require('./routes/clientes'); // adiciona as rotas a cadeia de middleware
+var produtosRouter = require('./routes/produtos'); // adiciona as rotas a cadeia de middleware
 var app = express();
 
 // view engine setup
@@ -17,11 +18,15 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.static(path.join(__dirname, 'public')))
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+app.use('/clientes', clientesRouter);
+app.use('/produtos', produtosRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));

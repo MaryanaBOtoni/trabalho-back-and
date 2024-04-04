@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1 Clientes 
+  form
+    div(class="mb-3")
+      label(for="nome" class="form-label") Nome 
+      input(class="form-control" id="nome" aria-describedby="nome" maxlength="20" minlength="3" required  )
+    div(class="mb-3")
+      label(for="sobrenome" class="form-label") Sobrenome 
+      input(class="form-control" id="sobrenome" aria-describedby="sobrenome" maxlength="20" minlength="3" required)
+    div(class="mb-3")
+      label(for="idade" class="form-label") Idade 
+      input(class="form-control" type="number" id="idade" aria-describedby="idade" required max="100" )
+    div(class="mb-3")
+      label(for="email" class="form-label") Email
+      input(class="form-control" type="email" id="email" aria-describedby="email" required)
+    div(class="d-flex gap-2")
+      a(href="/clientes" class="btn btn-secondary" tabindex="-1" role="button")  Voltar    
+      button(type="submit" class="btn btn-success") Criar    
+
+  script(src='/javascripts/validacaoCliente.js')

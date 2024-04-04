@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  h1 Clientes 
+  table(class='table')
+    thead
+      tr 
+        th(scope='col') ID
+        th(scope='col') Nome
+        th(scope='col') Sobrenome 
+        th(scope='col') Email 
+        th(scope='col') Idade
+        th(scope='col') Ações
+    tbody 
+      each cliente in dados 
+        tr 
+          td #{cliente.id}
+          td #{cliente.nome}
+          td #{cliente.sobrenome}
+          td #{cliente.email}
+          td #{cliente.idade}
+          td 
+            div(class='d-flex gap-3')
+              button(class='btn btn-danger') Delete
+              button(class='btn btn-primary') Editar
+
+  div(class="d-flex justify-content-end")
+          a(href="/clientes/criar" class="btn btn-success" tabindex="-1" role="button") Adicionar
+    

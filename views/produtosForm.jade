@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 Produtos 
+  form
+    div(class="mb-3")
+      label(for="nome" class="form-label") Nome 
+      input(class="form-control" id="nome" aria-describedby="nome" maxlength="20" minlength="3" required  )
+    div(class="mb-3")
+      label(for="sobrenome" class="form-label") Descrição 
+      input(class="form-control" id="sobrenome" aria-describedby="sobrenome" maxlength="20" minlength="3" required)
+    div(class="mb-3")
+      label(for="idade" class="form-label") Preço 
+      input(class="form-control" type="number" id="idade" aria-describedby="idade" required max="100" )
+    div(class="d-flex gap-2")
+      a(href="/produtos" class="btn btn-secondary" tabindex="-1" role="button")  Voltar    
+      button(type="submit" class="btn btn-success") Criar    
+
+  script(src='/javascripts/validacaoProdutos.js')
