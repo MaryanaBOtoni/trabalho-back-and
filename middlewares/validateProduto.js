@@ -1,5 +1,5 @@
 function validateProduto(req, res, next) {
-    data = req.body;
+    const data = req.body;
     let erros = [];
 
     console.log(data);
