@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1 Clientes 
+  form(action='/clientes/criar' method="POST")
+    div(class="mb-3")
+      label(for="nome" class="form-label") Nome
+      input(class="form-control" id="nome" aria-describedby="nome" name="nome")
+    div(class="mb-3")
+      label(for="sobrenome" class="form-label") Sobrenome 
+      input(class="form-control" id="sobrenome" aria-describedby="sobrenome" name="sobrenome")
+    div(class="mb-3")
+      label(for="email" class="form-label") Email 
+      input(class="form-control" type="text" id="email" aria-describedby="email" name="email")
+    div(class="mb-3")
+      label(for="idade" class="form-label") Idade 
+      input(class="form-control" type="number" id="idade" aria-describedby="idade" name="idade")
+    div(class="d-flex gap-2")
+      a(href="/clientes" class="btn btn-secondary" tabindex="-1" role="button")  Voltar    
+      button(type="submit" class="btn btn-success") Cadastrar
+    if erros 
+      ul(class="mt-4")
+        each erro in erros 
+          li(class="text-danger") #{erro}

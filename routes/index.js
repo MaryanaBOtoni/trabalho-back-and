@@ -4,7 +4,7 @@ var router = express.Router();
 
 // Traz clientes como home
 router.get('/', function (req, res) {
-    res.redirect("/clientes")
+    res.redirect("clientes")
 });
 
 module.exports = router;

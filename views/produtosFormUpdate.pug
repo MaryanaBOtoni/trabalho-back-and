@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 Produtos 
+  if dados
+    form(action=`/produtos/update/${dados[0].id}` method="POST")
+      div(class="mb-3")
+        label(for="nome" class="form-label") Nome
+        input(class="form-control" id="nome" aria-describedby="nome" name="nome" value=dados[0].nome) 
+      div(class="mb-3")|
+        label(for="sobrenome" class="form-label") Descrição 
+        input(class="form-control" id="descricao" aria-describedby="descricao" name="descricao" value=dados[0].descricao)
+      div(class="mb-3")
+        label(for="preco" class="form-label") Preço 
+        input(class="form-control" type="number" id="preco" aria-describedby="preco" name="preco" value=dados[0].preco)
+      div(class="d-flex gap-2")
+        a(href='/produtos' class="btn btn-secondary" tabindex="-1" role="button")  Voltar    
+        button(type="submit" class="btn btn-success") Alterar

@@ -1,47 +1,52 @@
 const asyncHandler = require("express-async-handler");
 
 const ProdutosModel = require('../models/ProdutosModel');
-//Home 
-exports.index = asyncHandler(async(req, res, next) => {
+
+exports.index = asyncHandler(async (req, res) => {
     try {
-        const produtos = await ProdutosModel.getAllClientes();
-        res.render('produtos', {dados: produtos})
-    } catch(error) {
-        res.status(500).json({message: error.message});
+        const produtos = await ProdutosModel.getAllProdutos();
+        res.render('produtos', { dados: produtos })
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 });
 
-// Mostra o lista da clientes
-exports.produtos_list = asyncHandler(async (req, res, next) => {
-    res.send("ainda nao foi feito");
+exports.produtos_criar_form = asyncHandler(async (req, res) => {
+    res.render('produtosFormCreate');
 });
 
-// Mostra o formulario para criar o cliente
-exports.produtos_criar_form = asyncHandler(async(req, res, next) => {
-    res.render('produtosForm');
+exports.produtos_criar_handler = asyncHandler(async (req, res) => {
+    try {
+        ProdutosModel.insertProduto(req.body);
+        res.redirect('/produtos')
+    } catch (error) {
+        console.log(error);
+    }
 });
 
-// Realiza o cadastro do cliente 
-exports.produtos_criar_handler = asyncHandler(async(req, res, next) => {
-    res.render('produtosForm');
+exports.produtos_delete_handler = asyncHandler(async (req, res) => {
+    try {
+        ProdutosModel.deleteProdutoById(req.params.id);
+        res.redirect('/produtos')
+    } catch (error) {
+        console.log(error);
+    }
 });
 
-// mostra formulario de delete de cliente
-exports.produtos_delete_form = asyncHandler(async(req, res, next) => {
-    res.send("nao implementada");
+exports.produtos_update_form = asyncHandler(async (req, res) => {
+    try {
+        let produto = await ProdutosModel.getProdutoById(req.params.id);
+        res.render('produtosFormUpdate', { dados: produto });
+    } catch (error) {
+        console.log(error);
+    }
 });
 
-//Realiza o delete do cliente
-exports.produtos_delete_handler = asyncHandler(async(req, res, next) => {
-    res.send("nao implementada");
-});
-
-// mostra formulario de update do cliente
-exports.produtos_update_form = asyncHandler(async(req, res, next) => {
-    res.send("nao implementada");
-});
-
-// Realiza o update do cliente
-exports.produtos_update_handler = asyncHandler(async(req, res, next) => {
-    res.send("nao implementada");
+exports.produtos_update_handler = asyncHandler(async (req, res) => {
+    try {
+        await ProdutosModel.updateProdutoById(req.params.id, req.body);
+        res.redirect('/produtos')
+    } catch (error) {
+        console.log(error);
+    }
 });

@@ -20,10 +20,10 @@ block content
           td #{cliente.email}
           td #{cliente.idade}
           td 
-            div(class='d-flex gap-3')
-              button(class='btn btn-danger') Delete
-              button(class='btn btn-primary') Editar
-
+            form(action=`/clientes/delete/${cliente.id}` method="POST") 
+              div(class='d-flex gap-3')
+                button(class='btn btn-danger' type='submit') Delete
+                a(href=`/clientes/update/${cliente.id}` class="btn btn-primary" tabindex="-1" role="button") Editar
   div(class="d-flex justify-content-end")
-          a(href="/clientes/criar" class="btn btn-success" tabindex="-1" role="button") Adicionar
+    a(href="/clientes/criar" class="btn btn-success" tabindex="-1" role="button") Adicionar
     

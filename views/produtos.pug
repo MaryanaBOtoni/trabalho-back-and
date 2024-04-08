@@ -20,10 +20,10 @@ block content
           td #{produto.preco}
           td #{produto.data_atualizado}
           td 
-            div(class='d-flex gap-3')
-              button(class='btn btn-danger') Delete
-              button(class='btn btn-primary') Editar
-
+            form(action=`/produtos/delete/${produto.id}` method="POST") 
+              div(class='d-flex gap-3')
+                button(class='btn btn-danger' type='submit') Delete
+                a(href=`/produtos/update/${produto.id}` class="btn btn-primary" tabindex="-1" role="button") Editar
   div(class="d-flex justify-content-end")
           a(href="/produtos/criar" class="btn btn-success" tabindex="-1" role="button") Adicionar
     

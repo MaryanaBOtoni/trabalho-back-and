@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1 Produtos 
+  form(action='/produtos/criar' method="POST")
+    div(class="mb-3")
+      label(for="nome" class="form-label") Nome
+      input(class="form-control" id="nome" aria-describedby="nome" name="nome")
+    div(class="mb-3")
+      label(for="sobrenome" class="form-label") Descrição 
+      input(class="form-control" id="descricao" aria-describedby="descricao" name="descricao")
+    div(class="mb-3")
+      label(for="preco" class="form-label") Preço 
+      input(class="form-control" type="number" id="preco" aria-describedby="preco" name="preco")
+    div(class="d-flex gap-2")
+      a(href="/produtos" class="btn btn-secondary" tabindex="-1" role="button")  Voltar    
+      button(type="submit" class="btn btn-success") Cadastrar
+  if erros 
+    ul(class="mt-4")
+      each erro in erros 
+        li(class="text-danger") #{erro}
