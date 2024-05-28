@@ -5,21 +5,32 @@ const cache = require('../cache');
 //Home 
 exports.index = asyncHandler(async (req, res) => {
     try {
+        // pega clientes
         const clientes = await ClientesModel.getAllClientes();
+        // pega o cache de clientes
         const clientesCache = cache.get('clientes');
 
+        // se existir nao existir o cache de clientes
         if (!clientesCache) { 
-             cache.set('clientes', clientes);
 
+            // vai pegar e setar o cache de cliente
+             cache.set('clientes', clientes);
+            
+             // vai voltar que nao existia o cache
             console.log('nao cache')
 
+            // volta os dados da requisição 
             res.render('clientes', {
                 dados: clientes
             })
         } else {
+            
+            // volta que o que esta voltando é o cache
             console.log("cache");
+
+            // volta os dados do cache 
             res.render('clientes', {
-                dados: clientes
+                dados: clientesCache
             })
         }
     } catch (error) {
