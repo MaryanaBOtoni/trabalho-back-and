@@ -3,6 +3,7 @@ var router = express.Router();
 
 const clientes_controller = require("../controllers/clientesController");
 const validateCliente = require("../middlewares/validateCliente");
+const cacheCliente = require("../cache");
 
 
 router.get("/", clientes_controller.index);

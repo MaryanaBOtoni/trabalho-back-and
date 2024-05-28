@@ -1,11 +1,29 @@
 const asyncHandler = require("express-async-handler");
-
+const NodeCache = require('node-cache');
+const cache = new NodeCache();
 const ProdutosModel = require('../models/ProdutosModel');
 
 exports.index = asyncHandler(async (req, res) => {
     try {
         const produtos = await ProdutosModel.getAllProdutos();
-        res.render('produtos', { dados: produtos })
+
+        const produtosCache = cache.get('produtos');
+
+        if (!produtosCache) { 
+             cache.set('produtos', produtos);
+
+            console.log('nao cache')
+
+            res.render('produtos', {
+                dados: produtos
+            })
+        } else {
+            console.log("cache");
+            res.render('produtos', {
+                dados: produtos
+            })
+        }
+
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

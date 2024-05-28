@@ -2,6 +2,7 @@ const db = require('../configs/database');
 var moment = require('moment');
 
 
+
 const Produtos = {
     getAllProdutos: () => {
         return new Promise((resolve, reject) => {

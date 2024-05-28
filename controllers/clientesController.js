@@ -1,13 +1,31 @@
 const asyncHandler = require("express-async-handler");
-
 const ClientesModel = require('../models/ClientesModel');
+const cache = require('../cache');
+
 //Home 
 exports.index = asyncHandler(async (req, res) => {
     try {
         const clientes = await ClientesModel.getAllClientes();
-        res.render('clientes', { dados: clientes })
+        const clientesCache = cache.get('clientes');
+
+        if (!clientesCache) { 
+             cache.set('clientes', clientes);
+
+            console.log('nao cache')
+
+            res.render('clientes', {
+                dados: clientes
+            })
+        } else {
+            console.log("cache");
+            res.render('clientes', {
+                dados: clientes
+            })
+        }
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({
+            message: error.message
+        });
     }
 });
 
@@ -35,8 +53,10 @@ exports.clientes_delete_handler = asyncHandler(async (req, res) => {
 
 exports.clientes_update_form = asyncHandler(async (req, res) => {
     try {
-        let produto = await ClientesModel.getClienteById(req.params.id);
-        res.render('clienteFormUpdate', { dados: produto });
+        let cliente = await ClientesModel.getClienteById(req.params.id);
+        res.render('clienteFormUpdate', {
+            dados: cliente
+        });
     } catch (error) {
         console.log(error);
     }
