@@ -37,7 +37,7 @@ app.set('view engine', 'pug');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/clientes', authMiddleware, clientesRouter);// Protegido por autenticação JWT
-app.use('/produtos', authMiddleware, produtosRouter); // Protegido por autenticação JWT
+app.use('/produtos',authMiddleware, produtosRouter); // Protegido por autenticação JWT
 app.use('/', authRouter); // Rota para autenticação
 
 // Middleware para tratar erros 404
