@@ -5,6 +5,7 @@ const produtos_controller = require("../controllers/produtosController");
 const validateCliente = require("../middlewares/validateProduto");
 
 
+
 router.get("/", produtos_controller.index);
 router.get("/criar",  produtos_controller.produtos_criar_form);
 router.post("/criar", validateCliente,produtos_controller.produtos_criar_handler);

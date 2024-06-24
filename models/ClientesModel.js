@@ -1,6 +1,7 @@
 const db = require('../configs/database');
 var moment = require('moment');
 
+
 const Clientes = {
     getAllClientes: async function () {
         return new Promise((resolve, reject) => {
@@ -55,3 +56,4 @@ const Clientes = {
 }
 
 module.exports = Clientes;
+

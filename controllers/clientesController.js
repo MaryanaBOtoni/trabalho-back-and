@@ -19,7 +19,7 @@ exports.index = asyncHandler(async (req, res) => {
             const clientes = await ClientesModel.getAllClientes();
             // Salva no cache por 30 segundos
             cache.set('clientes', clientes);
-          
+            console.log('Requisição para clientes: buscando no banco de dados');
             res.render('clientes', { dados: clientes });
         } else {
             // Se tiver cache, utiliza os dados do cache
