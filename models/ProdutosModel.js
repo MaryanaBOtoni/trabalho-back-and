@@ -12,6 +12,7 @@ const Produtos = {
                 }
                 resolve(rows);
             });
+
         });
     },
 

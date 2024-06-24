@@ -1,0 +1,160 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Página de Login
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    style.
+      body {
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      form {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 300px;
+      }
+      input[type='text'], input[type='password'], button[type='submit'] {
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      button[type='submit'] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .error-message {
+        color: red;
+        font-size: 1em;
+        margin-top: 5px;
+      }
+      .valid-message {
+        color: black;
+        font-size: 0.9em;
+        margin-top: 5px;
+      }
+      .larger-text {
+        font-size: 1.1em;
+      }
+      #capsLockInfo {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 5px;
+      }
+  body
+    div(style='text-align: center;')
+      h1(style='font-size: 5em; margin: 20px;') Seja Bem-Vindo!
+      p(style='font-size: 2em; margin: 2px;') Realize o Login:
+
+    form(id='loginForm', style='text-align: center;', action='/login/auth', method='POST')
+      input(type='text', id='nome', placeholder='Usuário', minlength='3', maxlength='30', name='nome')
+      br
+      span.error-message(id='nomeError')
+      span.valid-message(id='nomeValid')
+      br
+      input(type='password', id='senha', placeholder='Senha (mínimo 5 caracteres, 1 letra maiúscula, mínimo 2 números)', name='password')
+      br
+      span.error-message.larger-text(id='senhaError')
+      span.valid-message(id='senhaValid')
+      br
+      span.valid-message(id='senhaInfo')
+      br
+      span(id='capsLockInfo')
+      br
+      button(type='submit', id='submitButton') Entrar
+
+nav.navbar(style='position: absolute; top: 40px; left: 15px;')
+  a.btn.btn-primary.rounded-pill(href='/login', style='background-color: #007bff; color: white; border-color: #007bff;')
+    | Home
+
+script.
+  document.getElementById('loginForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    var nome = document.getElementById('nome').value;
+    var senha = document.getElementById('senha').value;
+
+    var nomeError = document.getElementById('nomeError');
+    var senhaError = document.getElementById('senhaError');
+    var nomeValid = document.getElementById('nomeValid');
+    var senhaValid = document.getElementById('senhaValid');
+    var senhaInfo = document.getElementById('senhaInfo');
+    var capsLockInfo = document.getElementById('capsLockInfo');
+
+    nomeError.textContent = '';
+    senhaError.textContent = '';
+    nomeValid.textContent = '';
+    senhaValid.textContent = '';
+    senhaInfo.textContent = '';
+
+    var valid = true;
+
+    if (nome.trim() === '') {
+      nomeError.textContent = 'Nome é obrigatório';
+      valid = false;
+    } else if (nome.length < 3 || nome.length > 30) {
+      nomeError.textContent = 'Nome deve ter entre 3 a 30 caracteres';
+      valid = false;
+    } else {
+      nomeValid.textContent = 'Nome válido';
+    }
+
+    if (!senha) {
+      senhaError.textContent = 'Senha é obrigatória';
+      valid = false;
+    } else if (senha.length < 5 || !/[A-Z]/.test(senha) || (senha.match(/\d/g) || []).length < 2) {
+      senhaError.textContent = 'Senha inválida';
+      valid = false;
+    } else {
+      senhaValid.textContent = 'Senha válida';
+    }
+
+    if (senha.length >= 5 && /[A-Z]/.test(senha) && (senha.match(/\d/g) || []).length >= 2) {
+      senhaInfo.textContent = 'Requisitos da senha atendidos';
+    } else {
+      senhaInfo.textContent = 'A senha deve ter no mínimo 5 caracteres, 1 letra maiúscula e 2 números';
+    }
+
+    if (valid) {
+      try {
+        const response = await fetch('/login/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ nome: nome, password: senha })
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('token', data.token);
+          alert(`Formulário submetido com sucesso! Redirecionando para a página de clientes...`);
+          window.location.href = '/clientes'; // Redireciona para a página de clientes após o login
+        } else {
+          const errorData = await response.json();
+          alert(`Erro: ${errorData.message}`);
+        }
+      } catch (error) {
+        alert('Ocorreu um erro ao submeter o formulário.');
+      }
+    }
+  });
+
+  document.getElementById('senha').addEventListener('keyup', function(event) {
+    var capsLockInfo = document.getElementById('capsLockInfo');
+    if (event.getModifierState('CapsLock')) {
+      capsLockInfo.textContent = 'Caps Lock está ativado';
+    } else {
+      capsLockInfo.textContent = '';
+    }
+  });

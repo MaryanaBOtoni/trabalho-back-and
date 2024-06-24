@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 
-/* GET users listing. */
+// Rota GET para listar usuários
 router.get('/', function(req, res) {
-    res.send('respond with a resource');
+     // Lógica para buscar e retornar os usuários do banco de dados
+    res.send('lista de usuarios');
 });
 
 module.exports = router;

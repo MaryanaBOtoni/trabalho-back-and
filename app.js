@@ -1,54 +1,56 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var app = express();
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const createError = require('http-errors');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
 
-app.use(bodyParser.json()) // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true }));
+dotenv.config();
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var clientesRouter = require('./routes/clientes'); // adiciona as rotas a cadeia de middleware
-var produtosRouter = require('./routes/produtos'); // adiciona as rotas a cadeia de middleware
+// Rotas
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const clientesRouter = require('./routes/clientes');
+const produtosRouter = require('./routes/produtos');
+const authRouter = require('./routes/auth');
 
+// Middleware de autenticação JWT
+const authMiddleware = require('./middlewares/authMiddleware');
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+const app = express();
 
-
-
+// Configuração de middlewares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/stylesheets', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use('/stylesheets', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
-
+// Rotas principais
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/clientes', clientesRouter);
-app.use('/produtos', produtosRouter);
+app.use('/clientes', clientesRouter);// Protegido por autenticação JWT
+app.use('/produtos', produtosRouter); // Protegido por autenticação JWT
+app.use('/', authRouter); // Rota para autenticação
 
-// catch 404 and forward to error handler
+// Middleware para tratar erros 404
 app.use(function(req, res, next) {
-    next(createError(404));
+  next(createError(404));
 });
 
-// error handler
-app.use(function(err, req, res) {
-// set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-
-    res.status(err.status || 500);
-    res.render('error');
+// Middleware para tratamento de erros
+app.use(function(err, req, res, next) {
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.status(err.status || 500);
+  res.render('error'); // Renderiza a página de erro
 });
 
 module.exports = app;

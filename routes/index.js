@@ -1,10 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-
-// Traz clientes como home
-router.get('/', function (req, res) {
-    res.redirect("clientes")
+router.get('/', function(req, res, next) {
+  res.redirect('clientes');
 });
 
 module.exports = router;

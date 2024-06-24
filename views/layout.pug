@@ -1,5 +1,5 @@
 doctype html
-html
+html(lang='en')
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
@@ -10,7 +10,13 @@ html
           span(class="navbar-toggler-icon")
         div(class="collapse navbar-collapse" id="navbarNav")
           ul(class="navbar-nav")
-            a(class="nav-link active" aria-current="page" href="/") Clientes
-            a(class="nav-link active" aria-current="page" href="/produtos") Produtos
+            li(class="nav-item")
+              a(class="nav-link active" aria-current="page" href="/clientes") Clientes
+            li(class="nav-item")
+              a(class="nav-link active" aria-current="page" href="/produtos") Produtos
     div(class='container mt-5')
       block content
+
+    // Botão Sair no Final da Página
+    div(class="fixed-bottom text-center mb-3")
+      a(href='/login' class="btn btn-primary") Sair
